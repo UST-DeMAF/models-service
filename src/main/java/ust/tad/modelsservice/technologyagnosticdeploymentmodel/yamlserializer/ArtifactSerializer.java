@@ -24,8 +24,8 @@ public class ArtifactSerializer extends StdSerializer<Artifact>{
         gen.writeObjectFieldStart(value.getType());
 
         gen.writeStringField("name", value.getName());
-        if (value.getFileUri() != null) {
-            gen.writeStringField("fileURI", value.getFileUri().toString());
+        if (value.getFileURI() != null) {
+            gen.writeStringField("fileURI", value.getFileURI().toString());
         } else {            
             gen.writeStringField("fileURI", "-");
         }
@@ -33,6 +33,5 @@ public class ArtifactSerializer extends StdSerializer<Artifact>{
         gen.writeEndObject();
         gen.writeEndObject();        
     }
-    
     
 }
