@@ -115,10 +115,12 @@ public class TechnologyAgnosticDeploymentModelService {
         RelationType dependsOn = new RelationType("DependsOn", "generic relation type", new ArrayList<>(), new ArrayList<>(), null);
         RelationType hostedOn = new RelationType("HostedOn", "hosted on relation", new ArrayList<>(), new ArrayList<>(), dependsOn);        
         RelationType connectsTo = new RelationType("ConnectsTo", "connects to relation", new ArrayList<>(), new ArrayList<>(), dependsOn);
+        RelationType attachesTo = new RelationType("AttachesTo", "attaches to relation", new ArrayList<>(), new ArrayList<>(), dependsOn);
         List<RelationType> relationTypes = new ArrayList<>();
         relationTypes.add(dependsOn);
         relationTypes.add(hostedOn);
         relationTypes.add(connectsTo);
+        relationTypes.add(attachesTo);
         return relationTypes;
     }
 
