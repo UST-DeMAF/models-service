@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ust.tad.modelsservice.kubernetesdeploymentmodel.entities.KubernetesDeploymentModel;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -27,6 +28,15 @@ public class KubernetesDeploymentModelService {
             return createOrUpdateKubernetesDeploymentModel(modelToCreate);
         } else {
             return models.get(0);
+        }
+    }
+
+    public KubernetesDeploymentModel getKubernetesDeploymentModelById(UUID id) throws ModelNotFoundException {
+        Optional<KubernetesDeploymentModel> model = kubernetesDeploymentModelRepository.findById(id);
+        if(model.isPresent()) {
+            return model.get();
+        } else {
+            throw new ModelNotFoundException("The model with id " + id + " does not exist.");
         }
     }
 }

@@ -44,7 +44,7 @@ public class KubernetesDeploymentModelController {
      * Retrieves a kubernetes deployment model, identified by the transformationProcessId.
      * If no kubernetes deployment model exists, initializes a new empty model.
      *
-     * @param transformationProcessId the identifier of the kubernetes deployment model.
+     * @param transformationProcessId the identifier of the transformation process of the kubernetes deployment model.
      * @return the kubernetes deployment model with HttpStatus.OK.
      */
     @GetMapping("/{transformationProcessId}")
@@ -54,6 +54,26 @@ public class KubernetesDeploymentModelController {
         try {
             return new ResponseEntity<>(kubernetesDeploymentModelService.
                     getOrCreateKubernetesDeploymentModelByTransformationProcessId(transformationProcessId),
+                    HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Retrieves a kubernetes deployment model, identified by the id.
+     *
+     * @param id the identifier of the kubernetes deployment model.
+     * @return the kubernetes deployment model with HttpStatus.OK.
+     */
+    @GetMapping("/id/{id}")
+    public ResponseEntity<KubernetesDeploymentModel> getById(
+            @PathVariable UUID id) {
+        LOG.info("Sending kubernetes deployment model");
+        try {
+            return new ResponseEntity<>(kubernetesDeploymentModelService.
+                    getKubernetesDeploymentModelById(id),
                     HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
