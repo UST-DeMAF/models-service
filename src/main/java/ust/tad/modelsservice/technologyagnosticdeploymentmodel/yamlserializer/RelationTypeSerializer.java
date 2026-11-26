@@ -1,6 +1,7 @@
 package ust.tad.modelsservice.technologyagnosticdeploymentmodel.yamlserializer;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -31,7 +32,8 @@ public class RelationTypeSerializer extends StdSerializer<RelationType> {
             gen.writeStringField("extends", "-");
         }
 
-        gen.writeStringField("description", value.getDescription());
+        gen.writeStringField("description",
+                TypeSystem.description(TypeSystem.RELATION_TYPES, value.getName()).orElse(value.getDescription()));
 
         if (value.getProperties().isEmpty()) {            
             provider.defaultSerializeField("properties", value.getProperties(), gen);
@@ -41,6 +43,11 @@ public class RelationTypeSerializer extends StdSerializer<RelationType> {
                 gen.writeStartObject();   
                 gen.writeObjectFieldStart(property.getKey());
                 gen.writeStringField("type", property.getType().toString());
+                Optional<String> description =
+                    TypeSystem.propertyDescription(TypeSystem.RELATION_TYPES, value.getName(), property.getKey());
+                if (description.isPresent()) {
+                    gen.writeStringField("description", description.get());
+                }
                 gen.writeBooleanField("required", property.getRequired());
                 switch(property.getType()) {
                     case BOOLEAN:
